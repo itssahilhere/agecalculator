@@ -91,7 +91,6 @@
   <body>
     <div class="container">
       <h1>Age Calculator</h1>
-      <!-- Create your requirred html here -->
       <div class="form">
         <label>Enter your date of birth: </label>
         <input type="date" id="birthday" required /><br />
@@ -106,10 +105,29 @@
       function calculateAge() {
         let birthday = document.getElementById("birthday").value;
         let result = document.getElementById("result");
+
+        if (!birthday) {
+          result.innerHTML = "Please enter your date of birth.";
+          return;
+        }
+
         let currentDate = new Date();
         let birthdate = new Date(birthday);
-        let age = currentDate.getFullYear() - birthdate.getFullYear();
-        result.innerHTML = age;
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+          ageMonths--;
+          ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+          ageYears--;
+          ageMonths += 12;
+        }
+
+        result.innerHTML = `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
       }
     </script>
   </body>
